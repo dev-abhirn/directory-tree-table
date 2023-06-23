@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import Box from "@mui/material/Box";
 
 import {
@@ -25,7 +25,7 @@ export function DirectoryTable() {
   const [dirIdToFetchChildren, setDirIdToFetchChildren] = useState("root");
   const lastExpandedElementobserver = useRef<IntersectionObserver | null>(null);
 
-  console.log("dirIdToFetchChildren", dirIdToFetchChildren);
+  // console.log("dirIdToFetchChildren", dirIdToFetchChildren);
 
   const rowVirtualizer = useVirtualizer({
     count: list.length,
@@ -143,6 +143,38 @@ export function DirectoryTable() {
     setList(l);
   };
 
+  const renderTableHead = () => (
+    <TableHead>
+      <TableRow>
+        <TableCell width={300}>Name</TableCell>
+        <TableCell width={300} align="right">
+          Desc
+        </TableCell>
+        <TableCell width={300} align="right">
+          Extra
+        </TableCell>
+      </TableRow>
+    </TableHead>
+  );
+
+  const renderTableBody = () =>
+    rowVirtualizer.getVirtualItems().map((virtualItem, index) => {
+      const row = rows[virtualItem.index];
+      const isExpanded = expandedIds.includes(row.id);
+
+      return (
+        <DirectoryTableRow
+          dirToFetchChildren={dirToFetchChildren}
+          row={row}
+          isExpanded={isExpanded}
+          rowSize={virtualItem.size}
+          rowStart={virtualItem.start}
+          lastExpandedElementRef={lastExpandedElementRef}
+          onExpand={handleExpand}
+        />
+      );
+    });
+
   return (
     <Box
       ref={parentRef}
@@ -160,35 +192,8 @@ export function DirectoryTable() {
         }}
         aria-label="simple table"
       >
-        <TableHead>
-          <TableRow>
-            <TableCell width={300}>Name</TableCell>
-            <TableCell width={300} align="right">
-              Desc
-            </TableCell>
-            <TableCell width={300} align="right">
-              Extra
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rowVirtualizer.getVirtualItems().map((virtualItem, index) => {
-            const row = rows[virtualItem.index];
-            const isExpanded = expandedIds.includes(row.id);
-
-            return (
-              <DirectoryTableRow
-                dirToFetchChildren={dirToFetchChildren}
-                row={row}
-                isExpanded={isExpanded}
-                rowSize={virtualItem.size}
-                rowStart={virtualItem.start}
-                lastExpandedElementRef={lastExpandedElementRef}
-                onExpand={handleExpand}
-              />
-            );
-          })}
-        </TableBody>
+        <TableHead>{renderTableHead()}</TableHead>
+        <TableBody>{renderTableBody()}</TableBody>
       </Table>
     </Box>
   );
