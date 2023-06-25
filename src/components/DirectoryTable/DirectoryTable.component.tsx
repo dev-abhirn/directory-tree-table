@@ -25,7 +25,7 @@ export function DirectoryTable() {
   const [dirIdToFetchChildren, setDirIdToFetchChildren] = useState("root");
   const lastExpandedElementobserver = useRef<IntersectionObserver | null>(null);
 
-  // console.log("dirIdToFetchChildren", dirIdToFetchChildren);
+  console.log("dirIdToFetchChildren", dirIdToFetchChildren);
 
   const rowVirtualizer = useVirtualizer({
     count: list.length,
@@ -144,17 +144,15 @@ export function DirectoryTable() {
   };
 
   const renderTableHead = () => (
-    <TableHead>
-      <TableRow>
-        <TableCell width={300}>Name</TableCell>
-        <TableCell width={300} align="right">
-          Desc
-        </TableCell>
-        <TableCell width={300} align="right">
-          Extra
-        </TableCell>
-      </TableRow>
-    </TableHead>
+    <TableRow>
+      <TableCell width={300}>Name</TableCell>
+      <TableCell width={300} align="right">
+        Desc
+      </TableCell>
+      <TableCell width={300} align="right">
+        Extra
+      </TableCell>
+    </TableRow>
   );
 
   const renderTableBody = () =>
@@ -164,6 +162,7 @@ export function DirectoryTable() {
 
       return (
         <DirectoryTableRow
+          key={row.id}
           dirToFetchChildren={dirToFetchChildren}
           row={row}
           isExpanded={isExpanded}
