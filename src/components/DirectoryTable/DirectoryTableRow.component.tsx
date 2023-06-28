@@ -19,8 +19,8 @@ export default function DirectoryTableRow({
   dirToFetchChildren,
   row,
   isExpanded,
-  rowSize,
   rowStart,
+  rowSize,
   lastExpandedElementRef,
   onExpand,
 }: {
@@ -63,7 +63,7 @@ export default function DirectoryTableRow({
       }}
       {...extraProps}
     >
-      <TableCell component="th" scope="row" width={300}>
+      <TableCell component="th" scope="row" sx={{ height: "50px" }} width={300}>
         <Box
           sx={{ display: "inline-flex", ml: `${marginLeft}px` }}
           onClick={() => onExpand(row.id)}

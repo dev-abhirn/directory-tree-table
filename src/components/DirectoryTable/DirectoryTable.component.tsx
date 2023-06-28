@@ -144,7 +144,7 @@ export function DirectoryTable() {
   };
 
   const renderTableHead = () => (
-    <TableRow>
+    <TableRow sx={{ height: "50px" }}>
       <TableCell width={300}>Name</TableCell>
       <TableCell width={300} align="right">
         Desc
