@@ -13,13 +13,14 @@ export class DataTree {
   constructor(
     public id: string,
     public name: string,
+    public parents: string[],
     public level: number = 0
   ) {
     this.children = [];
   }
 
   insertChildToRoot(id: string) {
-    const newTree = new DataTree(id, id, 1);
+    const newTree = new DataTree(id, id, [id], 1);
     this.children.push(newTree);
   }
 
@@ -57,7 +58,7 @@ export class DataTree {
     }
 
     parentTree.children.push(
-      ...createRandomChildren(id, length, parentTree.level + 1)
+      ...createRandomChildren(id, length, parentTree.level + 1, parentTree)
     );
   }
 
@@ -67,12 +68,16 @@ export class DataTree {
   ): { items: Item[]; total: number } {
     const items = this.children
       .slice(nextIndex, nextIndex + pageSize)
-      .map((t) => ({
-        id: t.id,
-        name: t.name,
-        total: t.children.length,
-        level: t.level,
-      }));
+      .map((t) => {
+        console.log("t", t);
+        return {
+          id: t.id,
+          name: t.name,
+          total: t.children.length,
+          level: t.level,
+          parents: t.parents,
+        };
+      });
 
     return { items, total: this.children.length };
   }
@@ -85,12 +90,16 @@ export class DataTree {
 
     const items = parentTree.children
       .slice(nextIndex, nextIndex + pageSize)
-      .map((t) => ({
-        id: t.id,
-        name: t.name,
-        total: t.children.length,
-        level: t.level,
-      }));
+      .map((t) => {
+        // console.log("t", t);
+        return {
+          id: t.id,
+          name: t.name,
+          total: t.children.length,
+          level: t.level,
+          parents: t.parents,
+        };
+      });
 
     return { items, total: parentTree.children.length };
   }
@@ -133,12 +142,20 @@ export class DataTree {
 function createRandomChildren(
   id: string,
   length: number,
-  level: number
+  level: number,
+  parent: DataTree
 ): DataTree[] {
   const list: DataTree[] = [];
 
   for (let i = 0; i < length; i++) {
-    list.push(new DataTree(`${id}--${i + 1}`, `${id}--${i + 1}`, level));
+    list.push(
+      new DataTree(
+        `${id}--${i + 1}`,
+        `${id}--${i + 1}`,
+        [...parent.parents, `${id}--${i + 1}`],
+        level
+      )
+    );
   }
 
   return list;

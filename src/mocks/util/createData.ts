@@ -1,6 +1,6 @@
 import { DataTree } from "./DataTree";
 
-export const dataTree = new DataTree("root", "root");
+export const dataTree = new DataTree("root", "root", []);
 
 /*-----------------------------Larger data ------------------------*/
 
@@ -8,7 +8,7 @@ for (let index = 0; index < 1000; index++) {
   dataTree.insertChildToRoot(`dir--${index + 1}`);
 }
 
-dataTree.insertChildren("dir--1", 200);
+dataTree.insertChildren("dir--1", 5);
 dataTree.insertChildren("dir--1--4", 150);
 dataTree.insertChildren("dir--1--4--2", 150);
 dataTree.insertChildren("dir--1--4--3", 150);

@@ -25,7 +25,7 @@ export function DirectoryTable() {
   const [dirIdToFetchChildren, setDirIdToFetchChildren] = useState("root");
   const lastExpandedElementobserver = useRef<IntersectionObserver | null>(null);
 
-  console.log("dirIdToFetchChildren", dirIdToFetchChildren);
+  // console.log("dirIdToFetchChildren", dirIdToFetchChildren);
 
   const rowVirtualizer = useVirtualizer({
     count: list.length,

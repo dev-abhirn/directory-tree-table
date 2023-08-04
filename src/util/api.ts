@@ -28,3 +28,15 @@ export async function fetchChildren(
 
   return directiories;
 }
+
+export async function fetchChildren2(
+  id: string,
+  nextIndex: number = 0
+): Promise<ApiTreeItem[]> {
+  const res = await fetch(`/file-management/${id}/children?next=${nextIndex}`);
+  const data = (await res.json()) as { data: { items: ApiTreeItem[] } };
+
+  const treeItemsResponse = data.data.items;
+
+  return treeItemsResponse as ApiTreeItem[];
+}

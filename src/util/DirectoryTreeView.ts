@@ -3,6 +3,7 @@ export type ApiTreeItem = {
   name: string;
   total: number;
   level: number;
+  parents: string[];
 };
 
 export class DirectoryTreeView {

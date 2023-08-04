@@ -13,6 +13,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.134",
     "@mui/material": "^5.13.5",
+    "@mui/x-data-grid-pro": "^6.11.0",
     "@mui/x-date-pickers": "^6.8.0",
     "@qlik-trial/sprout": "^3.1.0",
     "@tanstack/react-virtual": "^3.0.0-beta.54",
